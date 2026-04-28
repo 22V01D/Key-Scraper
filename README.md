@@ -7,7 +7,7 @@ Real-time GitHub commit scanner that watches the public events firehose and flag
 
 ---
 
-## Features
+## ⭐ Features
 
 - Monitors GitHub’s public Events API (“firehose”) in near real time  
 - ETag-aware polling to reduce bandwidth and avoid redundant work  
@@ -18,7 +18,7 @@ Real-time GitHub commit scanner that watches the public events firehose and flag
 
 ---
 
-## How It Works
+## ⚙️ How It Works
 
 ### 1. Firehose Poller
 - A background task (`firehose_metronome`) hits  
