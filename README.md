@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./cat.png" alt="Tactical Cat" width="200">
+  <img src="./cat.png" alt="Tactical Cat" width="175">
 </p>
 
 <h1 align="center">Key-Scraper</h1>
