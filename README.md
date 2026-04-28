@@ -1,7 +1,5 @@
-# Key-Scraper — GitHub Commit API Key Scraper
-
 <p align="center">
-  <img src="./cat.png" alt="Tactical Cat" width="300">
+  <img src="./cat.png" alt="Tactical Cat" width="200">
 </p>
 
 <h1 align="center">Key-Scraper</h1>
