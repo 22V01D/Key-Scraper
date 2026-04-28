@@ -1,6 +1,6 @@
 # Key-Scraper — GitHub Commit API Key Scraper
 
-## Context [🧠]
+## 🧠 Context
 Real-time GitHub commit scanner that watches the public events firehose and flags leaked API keys/tokens in recent commits. Built with FastAPI and httpx, with a live dashboard and simple JSON API.
 
 **Keywords:** API key scraper, token scanner, secret leak detector, GitHub commit scanner, security research
