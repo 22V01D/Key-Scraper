@@ -14,7 +14,36 @@ Real-time GitHub commit scanner that watches the public events firehose and flag
 - Background async worker for continuous scanning  
 - Live dashboard showing status, scanned diffs, and recent catches  
 - JSON API for integrations and automation  
-- Persists ETag/last poll time to survive restarts  
+- Persists ETag/last poll time to survive restarts
+
+---
+
+## How to Set Up
+
+1. **Create a Hugging Face Account**  
+   If you don’t already have one, sign up for a new account on Hugging Face.
+
+2. **Create a New Space**  
+   - Go to *Spaces*  
+   - Click **Create New Space**  
+   - Select **Docker** as the runtime  
+
+3. **Download Project Files**  
+   - Go to the GitHub repository  
+   - Download all files from the `Files` folder  
+
+4. **Upload Files to Hugging Face Space**  
+   - Upload the downloaded files into your newly created Hugging Face Space  
+
+5. **Add Your GitHub Token**  
+   - Open `app.py`  
+   - Locate line 14  
+   - Replace `Enter_Github_Token` with your GitHub Personal Access Token (PAT)  
+
+6. **Mount a Storage Bucket**  
+   - Go to *Space Settings* → *Storage / Buckets*  
+   - Create and mount a new bucket  
+   - It will automatically load the default configuration, so you don’t need to change anything  
 
 ---
 
