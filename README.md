@@ -85,3 +85,7 @@ Real-time GitHub commit scanner that watches the public events firehose and flag
   - **scans**: currently processed repos  
 
 - The root route `/` serves a lightweight dashboard that polls `/api/data` every second.
+
+<p align="center">
+  <img src="./cat.png" alt="Cat" width="400">
+</p>
