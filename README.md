@@ -1,5 +1,10 @@
 # Key-Scraper — GitHub Commit API Key Scraper
 
+<p align="center">
+  <img src="./cat.png" alt="Cat" width="400">
+</p>
+
+
 ## 🧠 Context
 Real-time GitHub commit scanner that watches the public events firehose and flags leaked API keys/tokens in recent commits. Built with FastAPI and httpx, with a live dashboard and simple JSON API.
 
@@ -86,6 +91,3 @@ Real-time GitHub commit scanner that watches the public events firehose and flag
 
 - The root route `/` serves a lightweight dashboard that polls `/api/data` every second.
 
-<p align="center">
-  <img src="./cat.png" alt="Cat" width="400">
-</p>
