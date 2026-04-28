@@ -18,7 +18,7 @@ Real-time GitHub commit scanner that watches the public events firehose and flag
 
 ---
 
-## How to Set Up
+## 🔧 How to Set Up
 
 1. **Create a Hugging Face Account**  
    If you don’t already have one, sign up for a new account on Hugging Face.
