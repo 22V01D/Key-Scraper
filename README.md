@@ -7,6 +7,7 @@
 <p align="center">
   Real-time GitHub commit scanner that detects leaked API keys and secrets.
 </p>
+
 > **IMPORTANT NOTE:**
 > This project is made with the assistance of artificial intelligence.
 
