@@ -27,33 +27,133 @@ Real-time GitHub commit scanner that watches the public events firehose and flag
 
 ---
 
-## 🔧 How to Set Up
+## 🗝️ How to Set Up & Run (Local Docker)
 
-1. **Create a Hugging Face Account**  
-   If you don’t already have one, sign up for a new account on Hugging Face.
+Follow this step-by-step guide to configure, build, and run **Key-Scraper** on your local machine using Docker.
 
-2. **Create a New Space**  
-   - Go to *Spaces*  
-   - Click **Create New Space**  
-   - Select **Docker** as the runtime  
+---
 
-3. **Download Project Files**  
-   - Go to the GitHub repository  
-   - Download all files from the `Files` folder  
+### 1. Prerequisites
+Make sure you have installed:
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Must be open and running)
+* [Git](https://git-scm.com/downloads)
 
-4. **Upload Files to Hugging Face Space**  
-   - Upload the downloaded files into your newly created Hugging Face Space  
+You will also need a **GitHub Personal Access Token (PAT)**:
+1. Go to **GitHub** -> **Settings** -> **Developer Settings** -> **Personal Access Tokens** -> **Tokens (classic)**.
+2. Click **Generate new token (classic)**.
+3. Name it (e.g., `key-scraper`), check the `public_repo` scope, and click **Generate token**.
+4. Copy your token (starts with `ghp_` or `github_pat_`).
 
-5. **Add Your GitHub Token**  
-   - Open `app.py`  
-   - Locate line 14  
-   - Replace `Enter_Github_Token` with your GitHub Personal Access Token (PAT)  
+---
 
-6. **Mount a Storage Bucket**  
-   - Go to *Space Settings* → *Storage / Buckets*  
-   - Create and mount a new bucket  
-   - It will automatically load the default configuration, so you don’t need to change anything  
+### 2. Clone the Repository
+Open your Terminal or Command Prompt and run:
+```bash
+git clone [https://github.com/your-username/key-scraper.git](https://github.com/your-username/key-scraper.git)
+cd key-scraper
+```
 
+---
+
+### 3. Modify Configuration Files
+
+Before building the container, configure the target scripts:
+
+#### A. Configure `app.py`
+
+Open `app.py` in any text editor (VS Code, Notepad, etc.) and add your GitHub token directly:
+
+* Locate the token definition line near the top:
+```python
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "ENTER_GITHUB_TOKEN")
+```
+
+* Replace `"ENTER_GITHUB_TOKEN"` with your actual GitHub token:
+```python
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "ghp_yourActualTokenHere12345")
+```
+
+---
+
+#### B. Customize Scan Targets in `scanner.py`
+
+Open `scanner.py` to customize what keys you want to scan for inside the `TARGET_MATRIX` dictionary.
+
+> **IMPORTANT RECOMMENDATION:**
+> It is **strongly advised to comment out or remove** `GEMINI_GOOGLE_AI`, `GOOGLE_OAUTH`, and `HEROKU_API` from `TARGET_MATRIX`. These patterns produce **tons of false positives** due to common regex matches on generic UUIDs, random hashes, and example parameters in public code.
+
+To disable a scanner, put a `#` in front of its line or delete it:
+
+```python
+    # "GEMINI_GOOGLE_AI": re.compile(r"AIza[0-9A-Za-z-_]{35}"),  <-- Disabled (High false positives)
+    # "GOOGLE_OAUTH": re.compile(r"ya29\.[a-zA-Z0-9_-]+"),        <-- Disabled (High false positives)
+    # "HEROKU_API": re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}..."), <-- Disabled (High false positives)
+```
+
+##### List of Available Scan Options in `scanner.py`:
+
+| Category | Available Target Key |
+| --- | --- |
+| **AI & LLMs** | `OPENAI_SK`, `OPENAI_PROJ`, `DEEPSEEK_SK`, `ANTHROPIC_SK`, `GROQ_API`, `OPENROUTER_SK`, `XAI_Grok_API`, `PERPLEXITY_API`, `FIREWORKS_API`, `ELEVENLABS_API`, `RUNWAY_API`, `DEEPAI_API` |
+| **Cloud Platforms** | `AWS_AKIA`, `GCP_SERVICE_ACCOUNT`, `AZURE_PAT`, `IBM_WATSON_API`, `HUGGINGFACE_TOKEN` |
+| **Google Services** *(High False-Positives)* | `GEMINI_GOOGLE_AI`, `GOOGLE_OAUTH` |
+| **Database & Mail** | `DB_CONNECTION`, `SMTP_URL`, `MAIL_CONFIG_PASS`, `SENDGRID_API` |
+| **Communication & Media** | `TWILIO_AUTH`, `IMAGGA_API` |
+| **Crypto & Finance** | `BITCOIN_PRIV`, `ETH_PRIVATE`, `STRIPE_LIVE` |
+| **Developer Tools** | `GITHUB_PAT`, `HEROKU_API` *(High False-Positives)*, `RSA_PRIVATE` |
+
+> **Note:** A dedicated **automatic key validator module** for `scanner.py` is currently being built to filter, verify, and purge dead/false-positive keys automatically.
+
+---
+
+### 4. Build & Run via Docker
+
+#### Build the Docker Image:
+
+```bash
+docker build -t key-scraper .
+```
+
+#### Run the Container:
+
+```bash
+docker run -d \
+  --name key-scraper \
+  -p 7860:7860 \
+  --restart unless-stopped \
+  key-scraper
+```
+
+---
+
+### 5. Access the Live Dashboard
+
+Open your browser and navigate to:
+**http://localhost:7860**
+
+---
+
+### Useful Management Commands
+
+* **View live logs:**
+```bash
+docker logs -f key-scraper
+```
+
+* **Stop the container:**
+```bash
+docker stop key-scraper
+```
+
+* **Restart the container:**
+```bash
+docker start key-scraper
+```
+
+* **Remove the container (to rebuild):**
+```bash
+docker rm -f key-scraper
+```
 ---
 
 ## ⚙️ How It Works
