@@ -49,7 +49,7 @@ You will also need a **GitHub Personal Access Token (PAT)**:
 ### 2. Clone the Repository
 Open your Terminal or Command Prompt and run:
 ```bash
-git clone [https://github.com/your-username/key-scraper.git](https://github.com/your-username/key-scraper.git)
+git clone https://github.com/22V01D/key-scraper.git
 cd key-scraper
 ```
 
@@ -161,9 +161,9 @@ docker rm -f key-scraper
 ### 1. Firehose Poller
 - A background task (`firehose_metronome`) hits  
   `https://api.github.com/events` every ~0.82s using httpx with HTTP/2 and connection pooling.  
+- At this interval, the scanner makes **~73 requests per minute** (approximately **4,390 requests per hour**).
 - Uses the response ETag and `If-None-Match` to avoid reprocessing unchanged pages (304 support).  
-- With a personal token, you get higher rate limits. Without it, you’re limited to ~60 requests/hour.  
-
+- With a GitHub Personal Access Token (PAT), your rate limit is **5,000 requests/hour**, which supports this continuous polling rate while leaving a small buffer for downloading the actual commit diffs. Without a token, you are severely limited to ~60 requests/hour and the scanner will constantly pause.
 ---
 
 ### 2. Event Processing
